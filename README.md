@@ -1,4 +1,4 @@
-# Agent-Native System Design Protocol
+# Agent-Platform Operating Protocol
 
 Last updated: 2026-04-01
 
@@ -9,6 +9,9 @@ This document defines a conceptual and technical framework for building software
 - has an agent that thinks and operates
 - connects to external systems
 - evolves through decisions, changes, and feedback
+
+Short name:
+- `APOP`
 
 It is product-agnostic and agent-agnostic.
 
