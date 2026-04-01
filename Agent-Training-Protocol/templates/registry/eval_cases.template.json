@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "registry.domain_eval_cases",
+  "domain": "DOMAIN_NAME",
+  "updated_at": "YYYY-MM-DD",
+  "source_of_truth": "manual",
+  "update_mode": "by_request",
+  "cases": [
+    {
+      "id": "R1",
+      "suites": ["regression_minimum", "retrieval"],
+      "prompt": "PLACEHOLDER_PROMPT",
+      "categories": {
+        "retrieval": [
+          { "any": ["EXPECTED_TERM_A", "EXPECTED_TERM_B"] }
+        ],
+        "boundaries": [
+          { "any": ["fresh verification", "check latest docs"] }
+        ]
+      }
+    },
+    {
+      "id": "A1",
+      "suites": ["applied_scenarios", "integration"],
+      "prompt": "PLACEHOLDER_APPLIED_SCENARIO",
+      "categories": {
+        "reasoning": [
+          { "any": ["diagnosis", "bottleneck"] }
+        ],
+        "integration": [
+          { "any": ["direct connector", "official api", "manual"] }
+        ],
+        "boundaries": [
+          { "none": ["invented certainty", "blindly do the write"] }
+        ]
+      }
+    }
+  ]
+}
+

@@ -22,6 +22,10 @@ It can be used as a foundation for:
 - surface design
 - source-of-truth alignment
 
+## Repository Modules
+
+- [Agent-Training-Protocol](./Agent-Training-Protocol/README.md): local-first training, eval, scheduler, watcher, memory-routing, and improvement blueprint for agents such as `Mirai`
+
 ## Core idea
 
 In an agent-native system:
