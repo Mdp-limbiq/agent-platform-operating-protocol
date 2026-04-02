@@ -52,6 +52,17 @@ That implies:
 - surfaces are not isolated forms
 - surfaces are derived views of a shared model
 
+## Runtime rule
+
+- the software owns time
+- the agent owns judgment
+
+This means:
+- schedulers, triggers, and jobs decide when work starts
+- the agent does not invent its own cadence
+- the agent responds to tasks, evidence packets, or explicit human requests
+- recurring work should be created by the system and routed into an agent work queue
+
 ## System layers
 
 ### 1. Domain layer
@@ -129,6 +140,109 @@ Examples:
 - syncing states
 - reading external outcomes
 - recording drift, retries, errors, and completions
+
+### 6. Runtime orchestration layer
+
+This layer coordinates how work moves through the system.
+
+It defines:
+- triggers
+- recurring jobs
+- agent tasks
+- work queues
+- proposals
+- review boundaries
+
+Rule:
+- runtime orchestration is not the same as UI
+- it is the operating flow that decides how signals become agent work, human review, and applied change
+
+## Operational objects
+
+These objects should be modeled distinctly.
+
+### 1. Trigger
+
+A trigger is the event that says work should be considered.
+
+Examples:
+- a recurring schedule
+- a human request
+- a state change
+- telemetry crossing a threshold
+
+### 2. Job
+
+A job is deterministic system work that evaluates whether something should happen.
+
+Examples:
+- weekly review scan
+- stale source audit
+- drift detector
+- promotion digest
+
+Rule:
+- jobs gather evidence
+- jobs should not pretend to be the agent
+
+### 3. Agent task
+
+An agent task is a unit of work assigned to the agent.
+
+It should include:
+- task type
+- reason
+- input payload
+- related entities
+- expected output surface or object
+
+### 4. Agent work queue
+
+This is where agent tasks wait, run, block, or complete.
+
+Rule:
+- it is an operational queue
+- it is not the same as an agent inbox or a human approval queue
+
+### 5. Surface output
+
+This is what the agent writes back into the product.
+
+Examples:
+- a recommendation
+- a timeline event
+- a structured review surface
+- a canonical state update
+
+### 6. Recommendation
+
+A recommendation is agent judgment presented to a human or to another part of the system.
+
+It is not yet a committed change.
+
+### 7. Proposal
+
+A proposal is a reviewable object that can be approved, rejected, or revised.
+
+Rule:
+- not every recommendation becomes a proposal
+- proposals should exist when a human decision or governance boundary is required
+
+### 8. Human work queue
+
+This is where proposals or decisions wait on human approval.
+
+Rule:
+- human review should be explicit
+- the system should not silently convert recommendations into applied change when approval is required
+
+### 9. Applied change
+
+This is the committed mutation of canonical state or external execution.
+
+Rule:
+- applied change should happen only after the correct boundary has been crossed
+- it should be traceable back to the task, recommendation, or proposal that caused it
 
 ## Decision flow
 
@@ -236,6 +350,19 @@ They contain:
 - risks
 - next steps
 
+### 6. Review surfaces
+
+They answer:
+- what is waiting for a human decision
+- what the agent is proposing
+- what evidence supports that proposal
+
+They contain:
+- proposals
+- rationale
+- structured sections
+- review actions
+
 ## Ownership model
 
 ### What the agent should write
@@ -340,6 +467,55 @@ For each surface, you should know:
 - what is fallback
 - what should become canonical later
 
+### 8. Runtime objects and queues
+
+The system should explicitly model:
+- triggers
+- jobs
+- agent tasks
+- agent work queues
+- recommendations
+- proposals
+- human work queues
+
+If these stay implicit, the runtime becomes hard to reason about and hard to train against.
+
+### 9. Section-driven surfaces
+
+Complex agent-authored surfaces should not depend only on rigid field-by-field layouts.
+
+A good default is:
+- the agent may author ordered sections
+- the UI renders those sections
+- if authored sections are missing, the app derives a coherent fallback from structured state
+
+This gives:
+- flexibility for new agent outputs
+- consistency of rendering
+- lower UI brittleness
+
+### 10. Benchmarks versus observed reality
+
+The system should separate:
+- initial benchmark
+- observed factual performance
+
+Rule:
+- benchmark is a starting expectation
+- observed reality is learned from real usage
+- do not present initial estimates as if they were factual history
+
+### 11. Surface change discipline
+
+When a significant surface changes, update the structural documentation that governs it.
+
+At minimum, review:
+- surface protocol
+- surface relationships
+- dependency schema
+- canonical model
+- runtime or orchestration docs if the change affects flow
+
 ## What the agent must learn
 
 ### 1. Domain semantics
@@ -386,6 +562,21 @@ It must understand the correct sequence:
 In other words:
 - the agent must learn the decision flow and dependency graph of the software
 
+### 6. Runtime semantics
+
+It must understand:
+- the difference between a trigger, a job, a task, a recommendation, and a proposal
+- which queue an object belongs to
+- what requires human review
+- what can remain advisory
+
+### 7. Clock semantics
+
+It must understand:
+- the software owns cadence
+- the agent responds to scheduled or event-driven work
+- recurring review should come through jobs and tasks, not hidden implicit behavior
+
 ## Training protocol
 
 Useful training for an agent inside agent-native software should include:
@@ -418,6 +609,13 @@ Useful training for an agent inside agent-native software should include:
 ### E. Change protocol
 - how to express structured changes
 - how changes affect multiple surfaces
+
+### F. Runtime protocol
+- how jobs create tasks
+- how tasks become surface output
+- when recommendations become proposals
+- when proposals require human review
+- when approved proposals become applied change
 
 ## Software design rule
 

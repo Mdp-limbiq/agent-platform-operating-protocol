@@ -19,6 +19,7 @@ policy interpretation.
 3. Runtime mutation is allowed only on bounded surfaces.
 4. Personal or relational memory must not be mixed into canon.
 5. Promotion and rollback must both be operationally easy.
+6. Runtime objects such as tasks, recommendations, proposals, and applied changes must stay distinct.
 
 ## Artifact States
 
@@ -117,6 +118,20 @@ Promotion into canon or policy requires:
 - no contradiction with stronger sources
 - manual review for high-impact domains
 
+### Flow 6: Runtime Orchestration to Review
+
+1. a trigger or cadence fires
+2. a deterministic job gathers evidence
+3. the system creates an agent task when judgment is needed
+4. the agent produces a recommendation or structured surface output
+5. the system creates a proposal only if review or governance is required
+6. human review accepts, rejects, or requests revision
+7. the system applies change only after the review outcome
+
+Output:
+
+- a traceable path from trigger to applied change
+
 ## Mutation Surface
 
 ### Mutable by Training Loop
@@ -143,6 +158,13 @@ Every accepted change should be traceable to:
 - the changed artifact
 - the run that validated it
 - the decision that accepted it
+
+For runtime changes, traceability should also include:
+
+- the trigger or job that created the task
+- the task that routed work to the agent
+- whether the result stayed a recommendation or became a proposal
+- the review decision when applicable
 
 ## Gating Protocol
 
@@ -199,6 +221,24 @@ If part of the stack is unhealthy:
 - keep runtime answering from the last known good workspace
 - continue writing incidents and traces
 - do not silently promote anything
+
+## Runtime Semantics the Agent Must Learn
+
+The agent should be trained to distinguish:
+
+- trigger
+- job
+- agent task
+- surface output
+- recommendation
+- proposal
+- applied change
+
+The agent should also understand:
+
+- the system owns cadence
+- recurring work arrives through jobs and tasks
+- approval boundaries are product rules, not writing style choices
 
 ## Mirai Example Mapping
 

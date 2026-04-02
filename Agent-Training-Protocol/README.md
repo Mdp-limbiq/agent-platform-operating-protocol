@@ -20,6 +20,9 @@ is intentionally generalized so it can be reused for other domains such as:
 - benchmark and casebank design
 - automated eval and regression runs
 - gating and promotion rules
+- runtime orchestration objects such as tasks, queues, recommendations, and proposals
+- section-driven surface rendering for agent-authored output
+- scheduler ownership of cadence and work handoff to the agent
 - optional evolution loop over prompts, skills, and memory
 - reusable reporting artifacts
 
@@ -74,8 +77,10 @@ If you are starting from zero, read these first:
 2. `docs/infra-blueprint.md`
 3. `docs/training-protocol.md`
 4. `docs/ops-scheduler-and-watcher.md`
-5. `docs/repo-layout.md`
-6. `docs/pipeline-stages.md`
-7. `docs/adaptation-guide.md`
-8. `examples/nn-mirai-pipeline-map.md`
-9. `docs/repo-shortlist-2026-04-01.md`
+5. `docs/runtime-orchestration-objects.md`
+6. `docs/flexible-surface-rendering.md`
+7. `docs/repo-layout.md`
+8. `docs/pipeline-stages.md`
+9. `docs/adaptation-guide.md`
+10. `examples/nn-mirai-pipeline-map.md`
+11. `docs/repo-shortlist-2026-04-01.md`

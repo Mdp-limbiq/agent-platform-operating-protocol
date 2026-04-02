@@ -30,6 +30,19 @@ Outputs:
 - stronger short-form wording
 - more precise case coverage
 
+## Per Runtime Orchestration Cycle
+
+Use this cycle when the system has recurring or event-driven operational work.
+
+1. evaluate the trigger or cadence
+2. run the deterministic job
+3. gather evidence
+4. decide whether an agent task is necessary
+5. route the task into the agent work queue
+6. let the agent write output, recommendation, or proposal
+7. route proposals to human review when required
+8. apply change only after the proper boundary is crossed
+
 ## Promotion Cadence
 
 Promote only when:
@@ -48,4 +61,5 @@ At the end of each cycle ask:
 3. did safety and boundaries stay intact
 4. did the agent become more tool-drifty
 5. is the improvement domain truth or only runtime convenience
-
+6. did a task, recommendation, or proposal get collapsed into the wrong object
+7. did the system keep clock ownership, or did the agent implicitly self-schedule

@@ -14,6 +14,24 @@ This means:
 - safe repair actions
 - graceful degradation
 
+## Clock Ownership
+
+The scheduler owns cadence.
+
+The agent does not self-schedule recurring work.
+
+This means:
+
+- the system decides when checks and reviews should happen
+- recurring evaluation should be expressed as named jobs
+- jobs may create agent tasks when judgment is needed
+- the agent responds to queued work, explicit requests, or evidence packets
+
+Rule:
+
+- software owns time
+- agent owns judgment
+
 ## Operational Components
 
 ### Scheduler
@@ -26,6 +44,13 @@ The scheduler runs:
 - eval suites
 - backups
 - report generation
+
+The scheduler may also create runtime work such as:
+
+- review tasks
+- triage tasks
+- summarization tasks
+- proposal-drafting tasks
 
 This can be implemented with:
 
@@ -48,6 +73,12 @@ The watcher monitors:
 
 It should be deterministic first and optionally LLM-assisted second.
 
+The watcher may escalate by:
+
+- creating an incident
+- queuing an agent task
+- routing a proposal to human review when governance is required
+
 ### Repair Executor
 
 The repair executor performs only allowlisted actions such as:
@@ -58,6 +89,25 @@ The repair executor performs only allowlisted actions such as:
 - re-embedding changed files
 - rolling back the runtime workspace to the last known good snapshot
 - switching the system into degraded read-only mode
+
+## Runtime Handoff Model
+
+When a recurring or event-driven review needs agent judgment, use this flow:
+
+1. trigger fires
+2. scheduler or watcher runs a deterministic job
+3. job gathers evidence
+4. job creates an agent task if interpretation is needed
+5. task enters the agent work queue
+6. agent writes surface output, a recommendation, or a proposal
+7. proposal enters human review only when approval is required
+
+Do not skip directly from:
+
+- job
+- to applied strategic judgment
+
+without a clear task or review boundary.
 
 ## Recommended Job Cadence
 
@@ -75,6 +125,9 @@ Use this as a strong default and then adapt by domain volatility.
 | `promotion_digest` | weekly | prepare review packet for possible promotions | optional |
 | `backup_snapshot` | daily | snapshot knowledge, reports, runtime, and exports | no |
 | `restore_drill` | monthly | verify that backups actually restore | no |
+
+Cadence belongs to the system, not to the agent.
+The agent should never be the hidden source of its own review clock.
 
 ## Example Cron Schedule
 
