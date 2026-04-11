@@ -1,6 +1,0 @@
-tools:
-  - name: read_skill
-    module: your_package.tools.skill_loader
-  - name: read_knowledge
-    module: your_package.tools.knowledge_loader
-
